@@ -1,13 +1,12 @@
-import fs from 'fs';
-import path from 'path';
-import { preview, Project, upload } from 'miniprogram-ci';
-import Table from 'cli-table3';
 import chalk from 'chalk';
-
-import { ProjectType } from 'miniprogram-ci/dist/@types/utils/project';
+import Table from 'cli-table3';
+import fs from 'fs';
+import { preview, Project, upload } from 'miniprogram-ci';
 import { IUploadResult } from 'miniprogram-ci/dist/@types/upload/upload';
+import { ProjectType } from 'miniprogram-ci/dist/@types/utils/project';
 import ora from 'ora';
-import { getFormatFileSize, getLastCommitLog, getPackageName } from './util';
+import path from 'path';
+import { getFormatFileSize, getPackageName } from './util';
 
 import ICompileSettings = MiniProgramCI.ICompileSettings;
 
@@ -171,16 +170,14 @@ class Ci {
     }
 
     try {
-      const latestCommit = await getLastCommitLog(this.workspace);
-
-      version = `${version}.${latestCommit.hash.substring(0, 7)}`;
+      version = `${version}`;
 
       if (this.env) {
         version = `${version}.${this.env}`;
       }
 
       // 没有desc时使用提交信息
-      desc = `${envDesc} ${desc || latestCommit.message}`;
+      desc = `${envDesc} ${desc}`;
     } catch (e) {
       if (this.env) {
         version = `${version}.${this.env}`;
@@ -210,7 +207,7 @@ class Ci {
       head: ['类型', '大小'],
     });
 
-    subPackageInfo.forEach(packageInfo => {
+    subPackageInfo.forEach((packageInfo) => {
       const formatSize = getFormatFileSize(packageInfo.size);
       packageTable.push([getPackageName(packageInfo.name), formatSize.size + formatSize.measure]);
     });
@@ -224,7 +221,7 @@ class Ci {
         head: ['appid', '版本', '大小', 'devPluginId'],
       });
 
-      pluginInfo.forEach(pluginInfo => {
+      pluginInfo.forEach((pluginInfo) => {
         const formatSize = getFormatFileSize(pluginInfo.size);
         pluginTable.push([pluginInfo.pluginProviderAppid, pluginInfo.version, formatSize.size + formatSize.measure, devPluginId]);
       });
@@ -253,7 +250,7 @@ class Ci {
           version: info.version,
           desc: info.desc,
           setting: this.projectConfig ? this.projectConfig.setting : {},
-          onProgressUpdate: function() {},
+          onProgressUpdate: function () {},
           // @ts-ignore
           proxy: opts.proxy || '',
           robot: this.robot,
@@ -262,6 +259,7 @@ class Ci {
         spinner.succeed('上传成功');
 
         this.printResult(info.version, info.desc, uploadResult);
+        return uploadResult;
       } catch (error) {
         spinner.fail('上传失败');
 
@@ -285,7 +283,7 @@ class Ci {
           setting: this.projectConfig ? this.projectConfig.setting : {},
           qrcodeFormat: opts.qr,
           qrcodeOutputDest: this.relsoveQrPath(opts.qr, opts.qrDest),
-          onProgressUpdate: function() {},
+          onProgressUpdate: function () {},
           pagePath: opts.pagePath,
           searchQuery: opts.searchQuery, // 这里的`&`字符在命令行中应写成转义字符`\&`
           // @ts-ignore
