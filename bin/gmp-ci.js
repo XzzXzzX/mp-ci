@@ -68,6 +68,6 @@ program.parse(process.argv);
 program.on('--help', () => {
   console.log('  Examples:');
   console.log('');
-  console.log('    $ mp-ci');
+  console.log('    $ gmp-ci');
   console.log('');
 });

@@ -1,12 +1,4 @@
-# 微信小程序(游戏)发布助手（mp-ci）
-
-[![version][version-badge]][package]
-[![downloads][downloads-badge]][npm-stat]
-
-[![PRs Welcome][prs-badge]][prs]
-
-[![Watch on GitHub][github-watch-badge]][github-watch]
-[![Star on GitHub][github-star-badge]][github-star]
+# 微信小程序(游戏)发布助手（gmp-ci）
 
 微信小程序(游戏)发布助手, 支持预览和上传。可以和`Jenkins`、`GitHub Actions`结合使用，实现自动化发布。
 
@@ -23,10 +15,10 @@
 
 ```shell
 // 全局安装
-npm install -g mp-ci
+npm install -g gmp-ci
 
 // 本地安装
-npm install --save-dev mp-ci
+npm install --save-dev gmp-ci
 ```
 
 > 使用前需要使用小程序管理员身份访问"[微信公众平台](https://mp.weixin.qq.com/)-开发-开发设置"后下载代码上传密钥，并配置 IP 白名单，才能进行上传、预览操作。
@@ -35,13 +27,13 @@ npm install --save-dev mp-ci
 
 - 代码上传密钥拥有预览、上传代码的权限
 - 代码上传密钥不会明文存储在微信公众平台上，一旦遗失必须重置，请妥善保管
-- 未配置IP白名单的，将无法使用 `mp-ci` 进行预览和上传
+- 未配置IP白名单的，将无法使用 `gmp-ci` 进行预览和上传
 - 可选择不对IP进行限制，但务必明白风险
 
 ## Usage
 
 ```sh
-Usage: mp-ci [--options ...]
+Usage: gmp-ci [--options ...]
 
 Options:
   -V, --version                  output the version number
@@ -64,7 +56,7 @@ Commands:
 ### upload
 
 ```sh
-Usage: mp-ci upload [options] [workspace]
+Usage: gmp-ci upload [options] [workspace]
 
 上传代码
 
@@ -82,7 +74,7 @@ Options:
 ### preview
 
 ```sh
-Usage: mp-ci preview [options] [workspace]
+Usage: gmp-ci preview [options] [workspace]
 
 预览代码
 
@@ -137,21 +129,5 @@ Options:
 
 **这里的`&`字符在命令行中应写成转义字符`\&`**
 
-## 相关资源
-
-- [mp-ci-demo](https://github.com/ineo6/mp-ci-demo) ：`Taro`和`GitHub Actions`持续集成示例
-
-[version-badge]: https://img.shields.io/npm/v/mp-ci.svg?style=flat-square
-[package]: https://www.npmjs.com/package/mp-ci
-[downloads-badge]: https://img.shields.io/npm/dm/mp-ci.svg?style=flat-square
-[npm-stat]: http://npm-stat.com/charts.html?package=mp-ci&from=2018-10-31
-[license-badge]: https://img.shields.io/npm/l/mp-ci.svg?style=flat-square
-[license]: https://github.com/ineo6/mp-ci/blob/master/LICENSE
 [prs-badge]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square
-[prs]: http://makeapullrequest.com
-[coc-badge]: htts://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat-square
-[github-watch-badge]: https://img.shields.io/github/watchers/ineo6/mp-ci.svg?style=social
-[github-watch]: https://github.com/ineo6/mp-ci/watchers
-[github-star-badge]: https://img.shields.io/github/stars/ineo6/mp-ci.svg?style=social
-[github-star]: https://github.com/ineo6/mp-ci/stargazers
 

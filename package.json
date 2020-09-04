@@ -1,10 +1,10 @@
 {
-  "name": "mp-ci",
-  "version": "1.0.1",
+  "name": "gmp-ci",
+  "version": "1.0.0",
   "description": "微信小程序、小游戏CI工具。",
   "main": "lib/index.js",
   "bin": {
-    "mp-ci": "./bin/mp-ci.js"
+    "gmp-ci": "./bin/gmp-ci.js"
   },
   "scripts": {
     "start": "tsc --watch",
@@ -18,17 +18,12 @@
     }
   },
   "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ineo6/mp-ci.git"
+    "type": "git"
   },
   "authors": [
-    "neo <arklove@qq.com> (https://github.com/ineo6)"
+    "Mingo"
   ],
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/ineo6/mp-ci/issues"
-  },
-  "homepage": "https://github.com/ineo6/mp-ci#readme",
   "keywords": [
     "jenkins",
     "wechat",
