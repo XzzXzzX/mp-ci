@@ -12,7 +12,7 @@
     "experimentalDecorators": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "noImplicitReturns": true,
+    "noImplicitReturns": false,
     "suppressImplicitAnyIndexErrors": true,
     "declaration": true
   },
