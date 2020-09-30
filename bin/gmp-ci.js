@@ -30,6 +30,31 @@ program
   });
 
 program
+  .command('getDevSourceMap [workspace]')
+  .option('--env [value]', '环境类型, 例如 dev|test|prod')
+  .option('--type [value]', '项目类型', 'miniProgram')
+  .option('--ver [value]', '发布版本号')
+  .option('--desc [value]', '发布简介')
+  .option('--pkp [value]', '私钥文件所在路径')
+  .option('--proxy [value]', '代理url')
+  .option('--robot [value]', '指定CI机器人，1 ~ 30', '1')
+  .option('--sourceMapSavePath [value]', 'sourcemap保存的路径')
+  .description('下载sourcemap')
+  .action(function(workspace, cmdObj) {
+    new Ci({
+      workspace: workspace || process.cwd(),
+      env: cmdObj.env,
+      version: cmdObj.ver,
+      desc: cmdObj.desc,
+      type: cmdObj.type,
+      pkp: cmdObj.pkp,
+      robot: cmdObj.robot,
+    }).downloadSourcemap({
+      downloadSourcemap: cmdObj.downloadSourcemap,
+    });
+  });
+
+program
   .command('preview [workspace]')
   .option('--env [value]', '环境类型, 例如 dev|test|prod')
   .option('--type [value]', '项目类型', 'miniProgram')

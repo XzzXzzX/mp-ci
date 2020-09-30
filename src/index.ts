@@ -1,9 +1,10 @@
 import chalk from 'chalk';
 import Table from 'cli-table3';
 import fs from 'fs';
-import { preview, Project, upload } from 'miniprogram-ci';
+import { preview, Project, upload, getDevSourceMap } from 'miniprogram-ci';
 import { IUploadResult } from 'miniprogram-ci/dist/@types/upload/upload';
 import { ProjectType } from 'miniprogram-ci/dist/@types/utils/project';
+import { IGetDevSourceMapOption } from 'miniprogram-ci/dist/@types/utils/sourcemap/getDevSourceMap';
 import ora from 'ora';
 import path from 'path';
 import { getFormatFileSize, getPackageName } from './util';
@@ -66,6 +67,10 @@ interface ProjectConfig {
 
 interface UploadOptions {
   proxy?: string;
+}
+
+interface SourcemapOptions {
+  downloadSourcemap?: string;
 }
 
 interface PreviewOptions {
@@ -207,7 +212,7 @@ class Ci {
       head: ['类型', '大小'],
     });
 
-    subPackageInfo.forEach((packageInfo) => {
+    subPackageInfo.forEach(packageInfo => {
       const formatSize = getFormatFileSize(packageInfo.size);
       packageTable.push([getPackageName(packageInfo.name), formatSize.size + formatSize.measure]);
     });
@@ -221,7 +226,7 @@ class Ci {
         head: ['appid', '版本', '大小', 'devPluginId'],
       });
 
-      pluginInfo.forEach((pluginInfo) => {
+      pluginInfo.forEach(pluginInfo => {
         const formatSize = getFormatFileSize(pluginInfo.size);
         pluginTable.push([pluginInfo.pluginProviderAppid, pluginInfo.version, formatSize.size + formatSize.measure, devPluginId]);
       });
@@ -250,7 +255,7 @@ class Ci {
           version: info.version,
           desc: info.desc,
           setting: this.projectConfig ? this.projectConfig.setting : {},
-          onProgressUpdate: function () {},
+          onProgressUpdate: function() {},
           // @ts-ignore
           proxy: opts.proxy || '',
           robot: this.robot,
@@ -262,6 +267,29 @@ class Ci {
         return uploadResult;
       } catch (error) {
         spinner.fail('上传失败');
+
+        console.error(chalk.red(error));
+        process.exit(1);
+      }
+    }
+  }
+
+  public async downloadSourcemap(opts: SourcemapOptions) {
+    if (this.project) {
+      const spinner = ora('上传...').start();
+
+      try {
+        const sourcemapResult = await getDevSourceMap({
+          project: this.project,
+          robot: this.robot as IGetDevSourceMapOption['robot'],
+          sourceMapSavePath: opts.downloadSourcemap || './sourcemap.zip',
+        });
+
+        spinner.succeed('下载sourcemap成功');
+
+        return sourcemapResult;
+      } catch (error) {
+        spinner.fail('下载sourcemap失败');
 
         console.error(chalk.red(error));
         process.exit(1);
@@ -283,7 +311,7 @@ class Ci {
           setting: this.projectConfig ? this.projectConfig.setting : {},
           qrcodeFormat: opts.qr,
           qrcodeOutputDest: this.relsoveQrPath(opts.qr, opts.qrDest),
-          onProgressUpdate: function () {},
+          onProgressUpdate: function() {},
           pagePath: opts.pagePath,
           searchQuery: opts.searchQuery, // 这里的`&`字符在命令行中应写成转义字符`\&`
           // @ts-ignore
